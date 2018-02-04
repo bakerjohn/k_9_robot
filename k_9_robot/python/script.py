@@ -22,124 +22,113 @@ GPIO = webiopi.GPIO
 
 # set the gpio pin reference
 
-motor1A = 17
+L1 = 17
 
-motor1B = 27
+L2 = 27
 
-motor2A = 22
+R1 = 22
 
-motor2B = 23
-
-
-# setup function is automatically called at WebIOPi startup
-def setup():
-   print("Script is now setup")
-   webiopi.debug("Script with macros - Setup")
-
-   # Setting GPIOs to output
-
-   GPIO.setFunction(motor1A, GPIO.OUT)
-
-   GPIO.setFunction(motor1B, GPIO.OUT)
-
-   GPIO.setFunction(motor2A, GPIO.OUT)
-   GPIO.setFunction(motor2B, GPIO.OUT)
+R2 = 23
 
 
 
-   #Setting GPIOs to off state
-
-   GPIO.digitalWrite(motor1A, GPIO.LOW)
-
-   GPIO.digitalWrite(motor1B, GPIO.LOW)
-
-   GPIO.digitalWrite(motor2A, GPIO.LOW)
-
-   GPIO.digitalWrite(motor2B, GPIO.LOW)
+#imports import webiopi
 
 
-# loop function is repeatedly called by WebIOPi
-def loop():
-        print("Script is executed")
-        webiopi.sleep(1)
+# Libreria GPIO 
+GPIO = webiopi . GPIO
+
+# ------------------------------------------------- - # # Definitions constant # # ------------------------------------------- ------- #
 
 
-# destroy function is called at WebIOPi shutdown
-def destroy():
-    print("Script is now closed")
-    ser.close()    # close the serial port
-    webiopi.debug("Script with macros - Destroy")
 
-    GPIO.setFunction(motor1A, GPIO.IN)
+# GPIOs left motor 
+L1 = 17 # H-Bridge 1 
+L2 = 27 # H-Bridge 2   
 
-    GPIO.setFunction(motor1B, GPIO.IN)
+# GPIOs right motor 
+R1 = 10 # H-Bridge 3 
+R2 = 9 # H-Bridge 4  
 
-    GPIO.setFunction(motor2A, GPIO.IN)
-
-    GPIO.setFunction(motor2B, GPIO.IN)
+# ------------------------------------------------- - # # Left motor functions # # ------------------------------------------ -------- #
 
 
-@webiopi.macro
-def MoveForward():
 
-#   os.system("espeak 'Moving Forward'")
+def left_stop (): 
+    GPIO . output ( L1 , GPIO . LOW ) 
+    GPIO . output ( L2 , GPIO . LOW )
+    
 
-   GPIO.digitalWrite(motor1A, GPIO.HIGH)
+def left_forward (): 
+    GPIO . output ( L1 , GPIO . HIGH ) 
+    GPIO . output ( L2 , GPIO . LOW )
+    
+def left_backward (): 
+    GPIO . output ( L1 , GPIO . LOW ) 
+    GPIO . output ( L2 , GPIO . HIGH )
 
-   GPIO.digitalWrite(motor1B, GPIO.LOW)
-
-   GPIO.digitalWrite(motor2A, GPIO.HIGH)
-
-   GPIO.digitalWrite(motor2B, GPIO.LOW)
+# ------------------------------------------------- - # # Motor functions right # # ------------------------------------------ -------- #
 
 
-@webiopi.macro
 
-def MoveBackward():
+def right_stop (): 
+    GPIO . output ( R1 , GPIO . LOW ) 
+    GPIO . output ( R2 , GPIO . LOW )
 
-   GPIO.digitalWrite(motor1A, GPIO.LOW)
+def right_forward (): 
+    GPIO . output ( R1 , GPIO . HIGH ) 
+    GPIO . output ( R2 , GPIO . LOW )
 
-   GPIO.digitalWrite(motor1B, GPIO.HIGH)
+def right_backward (): 
+    GPIO . output ( R1 , GPIO . LOW ) 
+    GPIO . output ( R2 , GPIO . HIGH )
 
-   GPIO.digitalWrite(motor2A, GPIO.LOW)
+# ------------------------------------------------- - # # Definition macro # # ------------------------------------------- ------- #
 
-   GPIO.digitalWrite(motor2B, GPIO.HIGH)
-@webiopi.macro
 
-def Stop():
 
-   GPIO.digitalWrite(motor1A, GPIO.LOW)
+@webiopi . macro
+ def go_forward (): 
+    left_forward ()
 
-   GPIO.digitalWrite(motor1B, GPIO.LOW)
+@webiopi . macro
+ def go_backward (): 
+    left_backward ()
 
-   GPIO.digitalWrite(motor2A, GPIO.LOW)
+@webiopi . macro
+ def turn_left (): 
+    right_forward ()
 
-   GPIO.digitalWrite(motor2B, GPIO.LOW)
+@webiopi . macro
+ def turn_right (): 
+    right_backward ()
 
-@webiopi.macro
+@webiopi . macro    
+ def stop (): 
+    left_stop () 
+    right_stop ()
+    
+# ------------------------------------------------- - # # Iniciacializacion # # -------------------------------------------- ------ #
 
-def MoveLeft():
 
-   GPIO.digitalWrite(motor1A, GPIO.HIGH)
 
-   GPIO.digitalWrite(motor1B, GPIO.LOW)
+def setup (): # GPIOs 
+    GPIO installation . setFunction ( L1 , GPIO . OUT ) 
+    GPIO . setFunction ( L2 , GPIO . OUT )
 
-   GPIO.digitalWrite(motor2A, GPIO.LOW)
 
-   GPIO.digitalWrite(motor2B, GPIO.HIGH)
+    GPIO . setFunction ( R1 , GPIO . OUT ) 
+    GPIO . setFunction ( R2 , GPIO . OUT )
 
-@webiopi.macro
 
-def MoveRight():
+def destroy (): # Reset the GPIO 
+    GPIO functions . setFunction ( L1 , GPIO . IN ) 
+    GPIO . setFunction ( L2 , GPIO . IN )
+    
 
-   GPIO.digitalWrite(motor1A, GPIO.LOW)
-
-   GPIO.digitalWrite(motor1B, GPIO.HIGH)
-
-   GPIO.digitalWrite(motor2A, GPIO.HIGH)
-
-   GPIO.digitalWrite(motor2B, GPIO.LOW)
-
+    GPIO . setFunction ( R1 , GPIO . IN ) 
+    GPIO . setFunction ( R2 , GPIO . IN )
+    
 
 @webiopi.macro
 def btn1():

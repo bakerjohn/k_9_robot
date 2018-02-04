@@ -4,7 +4,7 @@ How to make K-9
 Introduction: 
 I enjoy learning about all things IOT ,robots and raspberry pi. K-9 is a cardboard replica from the late 70's Doctor Who television show, It is also a mobile platform for Learning about the Internet of things through robotics.
  
-k-9 and scout hanging out.
+
 
 
 Projects

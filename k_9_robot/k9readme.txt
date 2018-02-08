@@ -73,11 +73,14 @@ bigger battery bank with at least 3 usb ports: ( Im running two raspberry pi plu
 
 MJPG-Streamer:
         Camera issues – some usb camera’s do not work on pi
+        No video: you have to change the index.html line for the imbedded video to the correct IP address of your pi
+
 
 Webiopi:
 To debug your script and config, you should first run WebIOPi foreground before$
 sudo webiopi -d -c /etc/webiopi/config
 
+to setup the wbiopi service to run on boot
 $ cd WebIOPi-x.y.z
 $ sed -i 's/ python3//' setup.sh
 $ sudo ./setup.sh
